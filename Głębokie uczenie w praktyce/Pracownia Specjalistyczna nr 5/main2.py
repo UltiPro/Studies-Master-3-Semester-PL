@@ -1,4 +1,4 @@
-import os, shutil
+import os
 
 base_dir = os.path.dirname(__file__)
 train_dir = os.path.join(base_dir, 'train')
