@@ -1,0 +1,5 @@
+Latent space mean: [-2.2852063  0.2897425]
+Latent space stdDev: [1.3741915 1.4092234]
+
+Latent space mean: [-1.3550327  0.3057523]
+Latent space stdDev: [0.760275  1.0905299]
