@@ -37,9 +37,7 @@ for maxlen in maxlen_values:
             model.add(Dense(1, activation="sigmoid"))  # Warstwa wyjściowa
 
             # Kompilacja modelu
-            model.compile(
-                optimizer="rmsprop", loss="binary_crossentropy", metrics=["acc"]
-            )
+            model.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["acc"])
 
             # Wyświetlenie podsumowania modelu
             model.summary()

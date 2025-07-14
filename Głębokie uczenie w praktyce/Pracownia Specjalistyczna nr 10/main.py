@@ -93,9 +93,7 @@ class VAE(keras.Model):
         self.decoder = decoder
         self.beta = beta  # Dodano współczynnik Beta
         self.total_loss_tracker = keras.metrics.Mean(name="total_loss")
-        self.reconstruction_loss_tracker = keras.metrics.Mean(
-            name="reconstruction_loss"
-        )
+        self.reconstruction_loss_tracker = keras.metrics.Mean(name="reconstruction_loss")
         self.kl_loss_tracker = keras.metrics.Mean(name="kl_loss")
 
     @property
@@ -111,9 +109,7 @@ class VAE(keras.Model):
             z_mean, z_log_var, z = self.encoder(data)
             reconstruction = self.decoder(z)
             reconstruction_loss = tf.reduce_mean(
-                tf.reduce_sum(
-                    keras.losses.binary_crossentropy(data, reconstruction), axis=(1, 2)
-                )
+                tf.reduce_sum(keras.losses.binary_crossentropy(data, reconstruction), axis=(1, 2))
             )
             kl_loss = -0.5 * (1 + z_log_var - tf.square(z_mean) - tf.exp(z_log_var))
             kl_loss = tf.reduce_mean(tf.reduce_sum(kl_loss, axis=1))
@@ -139,9 +135,7 @@ if __name__ == "__main__":
     # Definicja modelu
     latent_dim = 8  # Zmieniono na 8
     encoder_inputs = keras.Input(shape=(28, 28, 1))
-    x = layers.Conv2D(32, 3, activation="relu", strides=2, padding="same")(
-        encoder_inputs
-    )
+    x = layers.Conv2D(32, 3, activation="relu", strides=2, padding="same")(encoder_inputs)
     x = layers.Conv2D(64, 3, activation="relu", strides=2, padding="same")(x)
     x = layers.Flatten()(x)
     x = layers.Dense(16, activation="relu")(x)
@@ -156,9 +150,7 @@ if __name__ == "__main__":
     x = layers.Reshape((7, 7, 64))(x)
     x = layers.Conv2DTranspose(64, 3, activation="relu", strides=2, padding="same")(x)
     x = layers.Conv2DTranspose(32, 3, activation="relu", strides=2, padding="same")(x)
-    decoder_outputs = layers.Conv2DTranspose(
-        1, 3, activation="sigmoid", padding="same"
-    )(x)
+    decoder_outputs = layers.Conv2DTranspose(1, 3, activation="sigmoid", padding="same")(x)
     decoder = keras.Model(latent_inputs, decoder_outputs, name="decoder")
     decoder.summary()
 

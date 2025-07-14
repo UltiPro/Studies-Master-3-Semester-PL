@@ -11,6 +11,7 @@ maxlen_values = [20, 50, 100, 200]  # Maksymalne długości sekwencji
 # Ładowanie danych IMDB
 (x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=max_features)
 
+
 # Funkcja do budowy i trenowania modelu
 def build_and_train_model(maxlen, embedding_dim):
     # Przygotowanie danych
@@ -62,6 +63,7 @@ def build_and_train_model(maxlen, embedding_dim):
     # Testowanie modelu
     test_loss, test_acc = model.evaluate(x_test_padded, y_test, verbose=0)
     return test_acc
+
 
 # Testowanie różnych kombinacji maxlen i embedding_dim
 results = []

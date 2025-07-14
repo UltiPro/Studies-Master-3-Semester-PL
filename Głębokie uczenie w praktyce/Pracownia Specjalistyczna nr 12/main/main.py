@@ -1,4 +1,3 @@
-from keras.datasets.fashion_mnist import load_data
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
@@ -104,18 +103,14 @@ class GAN(keras.Model):
         random_latent_vectors = tf.random.normal(shape=(batch_size, self.latent_dim))
         generated_images = self.generator(random_latent_vectors)
         combined_images = tf.concat([generated_images, real_images], axis=0)
-        labels = tf.concat(
-            [tf.ones((batch_size, 1)), tf.zeros((batch_size, 1))], axis=0
-        )
+        labels = tf.concat([tf.ones((batch_size, 1)), tf.zeros((batch_size, 1))], axis=0)
         labels += 0.05 * tf.random.uniform(tf.shape(labels))
         # Trening dyskryminatora
         with tf.GradientTape() as tape:
             predictions = self.discriminator(combined_images)
             d_loss = self.loss_fn(labels, predictions)
         grads = tape.gradient(d_loss, self.discriminator.trainable_weights)
-        self.d_optimizer.apply_gradients(
-            zip(grads, self.discriminator.trainable_weights)
-        )
+        self.d_optimizer.apply_gradients(zip(grads, self.discriminator.trainable_weights))
         # Trening generatora
         random_latent_vectors = tf.random.normal(shape=(batch_size, self.latent_dim))
         misleading_labels = tf.zeros((batch_size, 1))
@@ -157,9 +152,7 @@ class GANMonitor(keras.callbacks.Callback):
 
     def on_epoch_end(self, epoch, logs=None):
         if epoch % 5 == 0 or epoch == 1:
-            random_latent_vectors = tf.random.normal(
-                shape=(self.num_img, self.latent_dim)
-            )
+            random_latent_vectors = tf.random.normal(shape=(self.num_img, self.latent_dim))
             generated_images = self.model.generator(random_latent_vectors)
             show_plot_JG(generated_images.numpy(), self.num_img, epoch, self.folder)
 

@@ -1,6 +1,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import os
+
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 import numpy as np
 import matplotlib.pyplot as plt
@@ -20,7 +21,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 iris = load_iris()
-#print(iris)
+# print(iris)
 
 # Etap 2. Konwersja danych
 X = iris["data"]
@@ -44,9 +45,7 @@ print("\nStatystyki po normalizacji:")
 for i, feature in enumerate(feature_names):
     print(f"{feature}: mean = {np.mean(X_scaled[:, i]):.4f}, stdev = {np.std(X_scaled[:, i]):.4f}")
 
-X_train, X_test, Y_train, Y_test = train_test_split(
-    X_scaled, Y, test_size=0.3, random_state=2
-)
+X_train, X_test, Y_train, Y_test = train_test_split(X_scaled, Y, test_size=0.3, random_state=2)
 
 # Wyświetlenie informacji o danych treningowych
 print("\nDane treningowe:")

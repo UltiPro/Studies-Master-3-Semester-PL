@@ -8,9 +8,7 @@ import time
 # === Ćwiczenie 1: Przygotowanie danych ===
 max_length = 200
 max_tokens = 20000
-(x_train, y_train), (x_test, y_test) = keras.datasets.imdb.load_data(
-    num_words=max_tokens
-)
+(x_train, y_train), (x_test, y_test) = keras.datasets.imdb.load_data(num_words=max_tokens)
 print(len(x_train), "Training sequences")
 print(len(x_test), "Test sequences")
 print("len(x_train[0]): ", len(x_train[0]))
@@ -34,9 +32,7 @@ epochs = 10
 
 def build_model(bidirectional=False):
     inputs = keras.Input(shape=(max_length,), dtype="int64")
-    embedded = layers.Embedding(
-        input_dim=max_tokens, output_dim=embed_dim, mask_zero=True
-    )(inputs)
+    embedded = layers.Embedding(input_dim=max_tokens, output_dim=embed_dim, mask_zero=True)(inputs)
     if bidirectional:
         x = layers.Bidirectional(layers.LSTM(32))(embedded)
     else:
@@ -82,9 +78,7 @@ class TransformerEncoder(layers.Layer):
         self.embed_dim = embed_dim
         self.dense_dim = dense_dim
         self.num_heads = num_heads
-        self.attention = layers.MultiHeadAttention(
-            num_heads=num_heads, key_dim=embed_dim
-        )
+        self.attention = layers.MultiHeadAttention(num_heads=num_heads, key_dim=embed_dim)
         self.dense_proj = keras.Sequential(
             [
                 layers.Dense(dense_dim, activation="relu"),
@@ -117,12 +111,8 @@ class TransformerEncoder(layers.Layer):
 class PositionalEmbedding(layers.Layer):
     def __init__(self, sequence_length, input_dim, output_dim, **kwargs):
         super().__init__(**kwargs)
-        self.token_embeddings = layers.Embedding(
-            input_dim=input_dim, output_dim=output_dim
-        )
-        self.position_embeddings = layers.Embedding(
-            input_dim=sequence_length, output_dim=output_dim
-        )
+        self.token_embeddings = layers.Embedding(input_dim=input_dim, output_dim=output_dim)
+        self.position_embeddings = layers.Embedding(input_dim=sequence_length, output_dim=output_dim)
         self.sequence_length = sequence_length
         self.input_dim = input_dim
         self.output_dim = output_dim
@@ -159,16 +149,10 @@ x = layers.GlobalMaxPooling1D()(x)
 x = layers.Dropout(0.5)(x)
 outputs = layers.Dense(1, activation="sigmoid")(x)
 model_transformer = keras.Model(inputs, outputs)
-model_transformer.compile(
-    optimizer="rmsprop", loss="binary_crossentropy", metrics=["accuracy"]
-)
+model_transformer.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["accuracy"])
 model_transformer.summary()
 
-callbacks = [
-    keras.callbacks.ModelCheckpoint(
-        "full_transformer_encoder.keras", save_best_only=True
-    )
-]
+callbacks = [keras.callbacks.ModelCheckpoint("full_transformer_encoder.keras", save_best_only=True)]
 
 start_time = time.time()
 history_transformer = model_transformer.fit(
@@ -198,9 +182,7 @@ print(f"Czas uczenia 10 epok (LSTM): {lstm_time:.2f} s")
 print(f"Czas uczenia 10 epok (Transformer): {transformer_time:.2f} s")
 
 # === Porównanie dokładności ===
-print(
-    f"Test acc (Bidirectional LSTM): {model_bidir.evaluate(x_test, y_test, verbose=0)[1]:.4f}"
-)
+print(f"Test acc (Bidirectional LSTM): {model_bidir.evaluate(x_test, y_test, verbose=0)[1]:.4f}")
 print(f"Test acc (LSTM): {model_lstm.evaluate(x_test, y_test, verbose=0)[1]:.4f}")
 
 # === Wykresy dokładności i strat ===

@@ -1,5 +1,4 @@
-from numpy import array, zeros, asarray
-from tensorflow.keras.preprocessing.text import one_hot
+from numpy import array
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.models import Sequential
@@ -83,6 +82,7 @@ print(res)
 from tensorflow.keras.losses import CosineSimilarity
 from tensorflow.keras.backend import l2_normalize
 
+
 def get_embedding_vector(word, tokenizer, model):
     word_index = tokenizer.word_index.get(word)
     if word_index is None:
@@ -101,7 +101,7 @@ def compare_embeddings(target_vector, tok, model):
         other_vector = get_embedding_vector(word, tok, model)
         if other_vector is not None:
             similarity = cosine_similarity(target_vector, other_vector).numpy()
-            #shifted_similarity = similarity + 1  # Przesunięcie o 1 jednostkę
+            # shifted_similarity = similarity + 1  # Przesunięcie o 1 jednostkę
             similarities.append((word, similarity))
     return sorted(similarities, key=lambda x: x[1], reverse=True)  # Sortowanie malejąco
 
@@ -115,4 +115,3 @@ if target_vector is not None:
     print("Najbliższe wektory (posortowane):")
     for word, similarity in results:
         print(f"Słowo: {word}, Podobieństwo cosinusowe: {similarity:.4f}")
-

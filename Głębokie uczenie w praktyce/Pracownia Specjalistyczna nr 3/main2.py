@@ -1,4 +1,3 @@
-import tensorflow as tf
 from tensorflow import keras
 import numpy as np
 from tensorflow.keras.datasets import imdb
@@ -14,7 +13,9 @@ word_index = imdb.get_word_index()
 
 def preprocess_review(review, word_index, max_words=10000):
     tokens = review.lower().split()
-    token_ids = [word_index.get(word, 2) + 3 for word in tokens]  # 2 is the index for unknown words, +3 to shift indices
+    token_ids = [
+        word_index.get(word, 2) + 3 for word in tokens
+    ]  # 2 is the index for unknown words, +3 to shift indices
     vectorized_review = np.zeros((1, max_words))
     for token_id in token_ids:
         if token_id < max_words:
@@ -34,4 +35,3 @@ while True:
         print("Pozytywna recenzja")
     else:
         print("Negatywna recenzja")
-    

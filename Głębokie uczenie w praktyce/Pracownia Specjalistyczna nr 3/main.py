@@ -1,6 +1,5 @@
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras import regularizers
 
 import os
 
@@ -34,6 +33,7 @@ reverse_word_index = dict([(value, key) for (key, value) in word_index.items()])
 decoded_review = " ".join([reverse_word_index.get(i - 3, "?") for i in train_data[0]])
 
 print(decoded_review)
+
 
 def vectorize_sequences(sequences, dimension=10000):
     results = np.zeros((len(sequences), dimension))
@@ -81,9 +81,7 @@ partial_x_train = x_train[10000:]
 y_val = y_train[:10000]
 partial_y_train = y_train[10000:]
 
-early_stopping = keras.callbacks.EarlyStopping(
-    monitor="val_loss", patience=5, restore_best_weights=True
-)
+early_stopping = keras.callbacks.EarlyStopping(monitor="val_loss", patience=5, restore_best_weights=True)
 
 history = model.fit(
     partial_x_train,

@@ -4,9 +4,15 @@ import os
 
 train_cats_dir = "cats"
 
-datagen = ImageDataGenerator( rotation_range=40, width_shift_range=0.2,
-height_shift_range=0.2, shear_range=0.2, zoom_range=0.2, horizontal_flip=True,
-fill_mode='nearest')
+datagen = ImageDataGenerator(
+    rotation_range=40,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
+    fill_mode="nearest",
+)
 
 # Operacja importowania modułu zawierającego narzędzia przetwarzające obrazy.
 from tensorflow.keras.preprocessing import image
@@ -35,5 +41,5 @@ for batch in datagen.flow(x, batch_size=1):
     i += 1
     if i % 5 == 0:
         break
-    
+
 plt.show()
